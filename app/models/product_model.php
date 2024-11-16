@@ -11,19 +11,9 @@ class productModel
     }
 
     //Esta funcion nos trae de la base de datos TODOS nuestros productos junto a sus categorias
-    function getProducts($orderBy = false)
+    function getProducts()
     {
         $db = $this->connectDB();
-
-        $sql = 'SELECT * FROM producto';
-
-        if ($orderBy) {
-            switch ($orderBy) {
-                case 'id_mate':
-                    $sql .= " ORDER BY id_mate ";
-                    break;
-            }
-        }
 
         //Enviamos nuestra consulta correspondiente 
         // " p. * " = nos trae TODOS los productos de la tabla "producto". 
@@ -92,7 +82,6 @@ class productModel
 
     function updateItem($id_mate, $nombre_mate, $forma_mate, $imagen, $recubrimiento_mate, $color_mate, $id_categoria_fk)
     {
-
         $db = $this->connectDB();
 
         $query = $db->prepare("UPDATE producto SET id_categoria_fk = ?, nombre_mate = ?, forma_mate = ?, imagen = ?, recubrimiento_mate = ?, color_mate = ? WHERE id_mate = ?");

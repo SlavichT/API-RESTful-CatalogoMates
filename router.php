@@ -33,9 +33,12 @@ $router = new Router();
 //$router->addRoute('producto'            , 'GET' ,       'ProductApiController',         'getAll');
 
 
-$router->addRoute('producto', 'GET',       'ProductApiController',         'getAll');
-$router->addRoute('producto/:id', 'GET',       'ProductApiController',         'get');
+$router->addRoute('producto',       'GET',       'ProductApiController',         'getAll');         #getAll   ->  nos trae TODOS los productos
+$router->addRoute('producto/:id',   'GET',       'ProductApiController',         'get');            #get ->  nos trae UN solo producto especifico por ID
+$router->addRoute('producto/:id',   'DELETE',    'ProductApiController',         'deleteProduct');  #deleteProduct    ->  nos elimina un producto especifico
+$router->addRoute('producto',       'POST',      'ProductApiController',         'addProduct');     #addProduct ->  nos agrega un producto especifico
+$router->addRoute('producto/:id',   'PUT',       'ProductApiController',         'updateProduct');  #updateProduct ->  updatea un producto ya existente
 
 
-// producto/12
+
 $router->route($_GET['resource'], $_SERVER['REQUEST_METHOD']);

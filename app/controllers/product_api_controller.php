@@ -3,7 +3,6 @@
 require_once('app/models/product_model.php');
 require_once('app/views/json_view.php');
 require_once('app/models/category_model.php');
-//require_once('app/helpers/auth_helper.php');
 
 
 //El controlador "maneja" todo lo que pide el usuario, si el usuario pide ver la lista de items de la pagina, el controlador se lo solicitara al modelo
@@ -19,7 +18,6 @@ class productApiController
     {
         $this->model = new productModel();
         $this->categoryModel = new categoryModel();
-        //$username = authHelper::getUsername();
         $this->view = new JSONView();
     }
 
@@ -29,15 +27,7 @@ class productApiController
     //  api/producto
     public function getAll($request, $response)
     {
-
-
-        $orderBy = false;
-
-        if (isset($request->query->orderBy)) {
-            $orderBy = $request->query->orderBy;
-        }
-
-        $products = $this->model->getProducts($orderBy);
+        $products = $this->model->getProducts();
 
         $this->view->response($products);
     }
@@ -59,121 +49,82 @@ class productApiController
         return $this->view->response($product);
     }
 
+    // api/producto/:id (DELETE)
+    public function deleteProduct($request, $response)
+    {
+        $id = $request->params->id;
+
+        $product = $this->model->getProductById($id);
+
+        if (!$product) {
+            return $this->view->response("El producto con el id=$id no existe", 404);
+        }
+
+        $this->model->deleteProductById($id);
+
+        $this->view->response("El producto con el id=$id fue eliminado con exito");
+    }
 
 
-    // Añadir nuevo producto
-    // Nos muestra la plantilla de añadir el producto
-    //public function showAddProductForm()
-    //{
-    //    authHelper::verify();
-    //    $categorias = $this->categoryModel->getCategories();
-    //    $this->view->showAddProductForm($categorias);
-    //}
-    //
-    //public function addProduct()
-    //{
-    //    authHelper::verify();
-    //    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    //        return $this->showAddProductForm();
-    //    }
-    //
-    //    //Verificamos que TODOS los campos esten llenos y no vacios
-    //    if (!isset($_POST['nombre_mate']) || empty($_POST['nombre_mate'])) {
-    //        return $this->view->showErrorGeneric('Falta completar el nombre del mate');
-    //    }
-    //    if (!isset($_POST['forma_mate']) || empty($_POST['forma_mate'])) {
-    //        return $this->view->showErrorGeneric('Falta completar la forma del mate');
-    //    }
-    //    if (!isset($_POST['recubrimiento_mate']) || empty($_POST['recubrimiento_mate'])) {
-    //        return $this->view->showErrorGeneric('Falta completar el recubrimiento del mate');
-    //    }
-    //    if (!isset($_POST['imagen']) || empty($_POST['imagen'])) {
-    //        return $this->view->showErrorGeneric('Falta completar la URL de la imagen');
-    //    }
-    //    if (!isset($_POST['color_mate']) || empty($_POST['color_mate'])) {
-    //        return $this->view->showErrorGeneric('Falta completar el color del mate');
-    //    }
-    //    if (!isset($_POST['id_categoria_fk']) || empty($_POST['id_categoria_fk'])) {
-    //        return $this->view->showErrorGeneric('Falta seleccionar una categoria para el mate');
-    //    }
-    //
-    //
-    //    $nombre_mate = $_POST['nombre_mate'];
-    //    $forma_mate = $_POST['forma_mate'];
-    //    $recubrimiento_mate = $_POST['recubrimiento_mate'];
-    //    $imagen = $_POST['imagen'];
-    //    $color_mate = $_POST['color_mate'];
-    //    $id_categoria_fk = $_POST['id_categoria_fk'];
-    //
-    //    $this->model->addNewProduct($nombre_mate, $forma_mate, $recubrimiento_mate, $imagen, $color_mate, $id_categoria_fk);
-    //
-    //    header('Location: ' . BASE_URL);
-    //}
+    // api/producto(POST)
 
-    //public function deleteProduct($id_mate)
-    //{
-    //    authHelper::verify();
-    //    $product = $this->model->getProductById($id_mate);
-    //
-    //    if (!$product) {
-    //        return $this->view->showErrorGeneric("No existe el producto con el id=$id_mate");
-    //    }
-    //
-    //    $this->model->deleteProductById($id_mate);
-    //
-    //    header('Location: ' . BASE_URL);
-    //}
-    //
-    //public function showUpdateProductForm($id_mate)
-    //{
-    //    authHelper::verify();
-    //    $product = $this->model->getProductById($id_mate);
-    //    $categorias = $this->categoryModel->getCategories();
-    //
-    //    if ($product) {
-    //        $this->view->showUpdateProductForm($product, $categorias);
-    //    } else {
-    //        $this->view->showErrorGeneric("No se encontró el producto correspondiente.");
-    //    }
-    //}
-    //
-    //public function updateProduct($id_mate)
-    //{
-    //    authHelper::verify();
-    //    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    //        return $this->showUpdateProductForm($id_mate);
-    //    }
-    //
-    //    //Verificamos que TODOS los campos esten llenos y no vacios
-    //    if (!isset($_POST['nombre_mate']) || empty($_POST['nombre_mate'])) {
-    //        return $this->view->showErrorGeneric('Falta completar el nombre del mate');
-    //    }
-    //    if (!isset($_POST['forma_mate']) || empty($_POST['forma_mate'])) {
-    //        return $this->view->showErrorGeneric('Falta completar la forma del mate');
-    //    }
-    //    if (!isset($_POST['recubrimiento_mate']) || empty($_POST['recubrimiento_mate'])) {
-    //        return $this->view->showErrorGeneric('Falta completar el recubrimiento del mate');
-    //    }
-    //    if (!isset($_POST['imagen']) || empty($_POST['imagen'])) {
-    //        return $this->view->showErrorGeneric('Falta completar la URL de la imagen');
-    //    }
-    //    if (!isset($_POST['color_mate']) || empty($_POST['color_mate'])) {
-    //        return $this->view->showErrorGeneric('Falta completar el color del mate');
-    //    }
-    //    if (!isset($_POST['id_categoria_fk']) || empty($_POST['id_categoria_fk'])) {
-    //        return $this->view->showErrorGeneric('Falta seleccionar una categoria para el mate');
-    //    }
-    //
-    //    $nombre_mate = $_POST['nombre_mate'];
-    //    $forma_mate = $_POST['forma_mate'];
-    //    $recubrimiento_mate = $_POST['recubrimiento_mate'];
-    //    $imagen = $_POST['imagen'];
-    //    $color_mate = $_POST['color_mate'];
-    //    $id_categoria_fk = $_POST['id_categoria_fk'];
-    //
-    //    $this->model->updateItem($id_mate, $nombre_mate, $forma_mate, $imagen, $recubrimiento_mate, $color_mate, $id_categoria_fk);
-    //
-    //    header('Location: ' . BASE_URL);
-    //}
-}//
-//
+    public function addProduct($request, $response)
+    {
+        //Valido los datos 
+        if (!isset($request->body->nombre_mate) || !isset($request->body->forma_mate) || !isset($request->body->recubrimiento_mate) || !isset($request->body->imagen) || !isset($request->body->color_mate) || !isset($request->body->id_categoria_fk)) {
+            return $this->view->response("Faltan completar datos", 400);
+        }
+
+        //Nos traemos toda la info del body mediante la request (esto nos traeria todo el contenido del producto que agregamos via POSTMAN)
+        $nombre_mate = $request->body->nombre_mate;
+        $forma_mate = $request->body->forma_mate;
+        $recubrimiento_mate = $request->body->recubrimiento_mate;
+        $imagen = $request->body->imagen;
+        $color_mate = $request->body->color_mate;
+        $id_categoria_fk = $request->body->id_categoria_fk; // En este campo debe seleccionarse un valor de 1 , 2 o 3 donde 1-> Calabaza , 2->Madera , 3->Vidrio
+
+        $id = $this->model->addNewProduct($nombre_mate, $forma_mate, $recubrimiento_mate, $imagen, $color_mate, $id_categoria_fk);
+
+        if (!$id) {
+            return $this->view->response("Error al agregar un nuevo producto", 400);
+        }
+
+        $product = $this->model->getProductById($id);
+        return $this->view->response($product, 201);
+    }
+
+    //api/producto/:id (PUT)
+    public function updateProduct($request, $response)
+    {
+        $id = intval($request->params->id);
+
+        $product = $this->model->getProductById($id);
+
+
+        if (!$product) {
+            return $this->view->response("El producto con el id=$id no existe", 404);
+        }
+
+        if (empty($request->body->nombre_mate) || empty($request->body->forma_mate) || empty($request->body->recubrimiento_mate) || empty($request->body->imagen) || empty($request->body->color_mate) || empty($request->body->id_categoria_fk)) {
+            return $this->view->response("Faltan completar datos", 400);
+        }
+
+        $nombre_mate = $request->body->nombre_mate;
+        $forma_mate = $request->body->forma_mate;
+        $recubrimiento_mate = $request->body->recubrimiento_mate;
+        $imagen = $request->body->imagen;
+        $color_mate = $request->body->color_mate;
+        $id_categoria_fk = $request->body->id_categoria_fk;
+
+
+
+        $this->model->updateItem($id, $nombre_mate, $forma_mate, $imagen, $recubrimiento_mate, $color_mate, $id_categoria_fk);
+
+        $productUpdated = $this->model->getProductById($id);
+        if (!$productUpdated) {
+            return $this->view->response("No se puedo actualizar el producto con el id=$id", 400);
+        }
+
+        return $this->view->response($productUpdated, 200);
+    }
+}
