@@ -116,6 +116,11 @@ class productApiController
         $color_mate = $request->body->color_mate;
         $id_categoria_fk = $request->body->id_categoria_fk;
 
+        $category = $this->categoryModel->getCategoryById($id_categoria_fk);
+        if (!$category) {
+            return $this->view->response("La categoria con el id=$id_categoria_fk no existe", 404);
+        }
+
 
 
         $this->model->updateItem($id, $nombre_mate, $forma_mate, $imagen, $recubrimiento_mate, $color_mate, $id_categoria_fk);

@@ -24,8 +24,12 @@
 //500 Internal Server Error -> Llegó la peticion pero falló al llegar al servidor
 //503 Service Unavailable   -> La peticion nunca llego al servidor ya que el mismo se encontraba apagado, no se encontró la IP, etc.
 
+const JWT_KEY = 'admin';
+const JWT_EXPIRATION_TIME = 3600;
 require_once('libs/router.php');
 require_once('app/controllers/product_api_controller.php');
+
+
 $router = new Router();
 
 //                                              EJEMPLO

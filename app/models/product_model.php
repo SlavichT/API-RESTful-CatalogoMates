@@ -48,16 +48,6 @@ class productModel
 
     //Traemos las categorias 
 
-    function getCategories()
-    {
-        $db = $this->connectDB();
-
-        $query = $db->prepare("SELECT * FROM categoria");
-        $query->execute();
-        $categorias = $query->fetchAll(PDO::FETCH_OBJ);
-        return $categorias;
-    }
-
     function addNewProduct($nombre_mate, $forma_mate, $recubrimiento_mate, $imagen, $color_mate, $id_categoria_fk)
     {
         $db = $this->connectDB();
