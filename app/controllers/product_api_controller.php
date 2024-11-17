@@ -70,8 +70,24 @@ class productApiController
             }
         }
 
+        $sort = null;
+        if (isset($req->query->sort)) {
+            $sort = $req->query->sort;
+        }
 
-        $products = $this->model->getProducts($orderBy, $forma_mate);
+        $limit = null;
+        if (isset($req->query->limit)) {
+            $limit = $req->query->limit;
+        }
+
+        $page = 1;
+        if (isset($req->query->page)) {
+            $page = $req->query->page;
+        }
+
+        $offset = ($page - 1) * $limit;
+
+        $products = $this->model->getProducts($orderBy, $forma_mate, $sort, $limit, $offset);
 
         return $this->view->response($products);
     }

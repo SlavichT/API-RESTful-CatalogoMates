@@ -11,7 +11,7 @@ class productModel
     }
 
     //Esta funcion nos trae de la base de datos TODOS nuestros productos junto a sus categorias
-    function getProducts($orderBy = 'id_mate', $forma_mate = null)
+    function getProducts($orderBy = 'id_mate', $forma_mate = null, $sort = null, $limit = null, $offset = 0)
     {
         $db = $this->connectDB();
 
@@ -83,10 +83,25 @@ class productModel
                     break;
             }
 
-            $query = $db->prepare($sql);
-            if ($forma_mate != null) {
-                $query->bindParam(1, $forma_mate, PDO::PARAM_STR);
+            if ($sort != null) {
+                $sql .= ' $sort';
             }
+
+            if ($limit != null) {
+                $sql .= ' LIMIT ? OFFSET ?';
+            }
+
+            $query = $db->prepare($sql);
+            $paramIndex = 1;
+            if ($forma_mate != null) {
+                $query->bindParam($paramIndex++, $forma_mate, PDO::PARAM_STR);
+            }
+
+            if ($limit != null) {
+                $query->bindParam($paramIndex++, $limit, PDO::PARAM_INT);
+                $query->bindParam($paramIndex++, $offset, PDO::PARAM_INT);
+            }
+
             $query->execute();
 
             $products = $query->fetchAll(PDO::FETCH_OBJ);
