@@ -25,18 +25,74 @@ class productApiController
     //Muestra nuestra lista de items
 
     //  api/producto
-    public function getAll($request, $response)
+    public function getAll($req, $res)
     {
-        $products = $this->model->getProducts();
+        //if (!$res->user) {
+        //    return $this->view->response("No autorizado", 401);
+        //}
 
-        $this->view->response($products);
+        $allowedColumns =
+            [
+                'id_mate',
+                'nombre_mate',
+                'forma_mate',
+                'recubrimiento_mate',
+                'color_mate',
+                'id_categoria_fk',
+                '-id_mate',
+                '-nombre_mate',
+                '-forma_mate',
+                '-recubrimiento_mate',
+                '-color_mate',
+                '-id_categoria_fk',
+                '-material_fabricacion',
+            ];
+
+        $orderBy = 'id_mate';
+
+        if (isset($req->query->orderBy)) {
+            $orderBy = $req->query->orderBy;
+
+            if (!in_array($orderBy, $allowedColumns)) {
+                return $this->view->response("El ordenamiento por '$orderBy' no es valido", 400);
+            }
+        }
+
+        //FILTRO POR FORMA DE MATE: IMPERIAL , TORPEDO o CAMIONERO
+        $forma_mate = null;
+        $allowedMate =
+            [
+                'imperial',
+                'torpedo',
+                'camionero'
+            ];
+        if (isset($req->query->forma_mate)) {
+            $forma_mate = strtolower($req->query->forma_mate);
+
+            if (!in_array($forma_mate, $allowedMate)) {
+                return $this->view->response("La forma de mate seleccionada '$forma_mate' no es valida", 400);
+            }
+        }
+
+
+        $products = $this->model->getProducts($orderBy, $forma_mate);
+
+        return $this->view->response($products);
     }
 
+
+    //public function getAll($req, $res)
+    //{
+    //    $products = $this->model->getProducts();
+    //
+    //    $this->view->response($products);
+    //}
+
     // api/producto/:id
-    public function get($request, $response)
+    public function get($req, $res)
     {
         //Obtenemos el ID del producto desde la ruta
-        $id = $request->params->id;
+        $id = $req->params->id;
 
         //Obtenemos el producto de la DB
         $product = $this->model->getProductById($id);
@@ -50,9 +106,9 @@ class productApiController
     }
 
     // api/producto/:id (DELETE)
-    public function deleteProduct($request, $response)
+    public function deleteProduct($req, $res)
     {
-        $id = $request->params->id;
+        $id = $req->params->id;
 
         $product = $this->model->getProductById($id);
 
@@ -68,20 +124,20 @@ class productApiController
 
     // api/producto(POST)
 
-    public function addProduct($request, $response)
+    public function addProduct($req, $res)
     {
         //Valido los datos 
-        if (!isset($request->body->nombre_mate) || !isset($request->body->forma_mate) || !isset($request->body->recubrimiento_mate) || !isset($request->body->imagen) || !isset($request->body->color_mate) || !isset($request->body->id_categoria_fk)) {
+        if (!isset($req->body->nombre_mate) || !isset($req->body->forma_mate) || !isset($req->body->recubrimiento_mate) || !isset($req->body->imagen) || !isset($req->body->color_mate) || !isset($req->body->id_categoria_fk)) {
             return $this->view->response("Faltan completar datos", 400);
         }
 
         //Nos traemos toda la info del body mediante la request (esto nos traeria todo el contenido del producto que agregamos via POSTMAN)
-        $nombre_mate = $request->body->nombre_mate;
-        $forma_mate = $request->body->forma_mate;
-        $recubrimiento_mate = $request->body->recubrimiento_mate;
-        $imagen = $request->body->imagen;
-        $color_mate = $request->body->color_mate;
-        $id_categoria_fk = $request->body->id_categoria_fk; // En este campo debe seleccionarse un valor de 1 , 2 o 3 donde 1-> Calabaza , 2->Madera , 3->Vidrio
+        $nombre_mate = $req->body->nombre_mate;
+        $forma_mate = $req->body->forma_mate;
+        $recubrimiento_mate = $req->body->recubrimiento_mate;
+        $imagen = $req->body->imagen;
+        $color_mate = $req->body->color_mate;
+        $id_categoria_fk = $req->body->id_categoria_fk; // En este campo debe seleccionarse un valor de 1 , 2 o 3 donde 1-> Calabaza , 2->Madera , 3->Vidrio
 
         $id = $this->model->addNewProduct($nombre_mate, $forma_mate, $recubrimiento_mate, $imagen, $color_mate, $id_categoria_fk);
 
@@ -94,9 +150,9 @@ class productApiController
     }
 
     //api/producto/:id (PUT)
-    public function updateProduct($request, $response)
+    public function updateProduct($req, $res)
     {
-        $id = intval($request->params->id);
+        $id = intval($req->params->id);
 
         $product = $this->model->getProductById($id);
 
@@ -105,22 +161,21 @@ class productApiController
             return $this->view->response("El producto con el id=$id no existe", 404);
         }
 
-        if (empty($request->body->nombre_mate) || empty($request->body->forma_mate) || empty($request->body->recubrimiento_mate) || empty($request->body->imagen) || empty($request->body->color_mate) || empty($request->body->id_categoria_fk)) {
+        if (empty($req->body->nombre_mate) || empty($req->body->forma_mate) || empty($req->body->recubrimiento_mate) || empty($req->body->imagen) || empty($req->body->color_mate) || empty($req->body->id_categoria_fk)) {
             return $this->view->response("Faltan completar datos", 400);
         }
 
-        $nombre_mate = $request->body->nombre_mate;
-        $forma_mate = $request->body->forma_mate;
-        $recubrimiento_mate = $request->body->recubrimiento_mate;
-        $imagen = $request->body->imagen;
-        $color_mate = $request->body->color_mate;
-        $id_categoria_fk = $request->body->id_categoria_fk;
+        $nombre_mate = $req->body->nombre_mate;
+        $forma_mate = $req->body->forma_mate;
+        $recubrimiento_mate = $req->body->recubrimiento_mate;
+        $imagen = $req->body->imagen;
+        $color_mate = $req->body->color_mate;
+        $id_categoria_fk = $req->body->id_categoria_fk;
 
         $category = $this->categoryModel->getCategoryById($id_categoria_fk);
         if (!$category) {
             return $this->view->response("La categoria con el id=$id_categoria_fk no existe", 404);
         }
-
 
 
         $this->model->updateItem($id, $nombre_mate, $forma_mate, $imagen, $recubrimiento_mate, $color_mate, $id_categoria_fk);
