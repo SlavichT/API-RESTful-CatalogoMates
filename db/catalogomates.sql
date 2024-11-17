@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-10-2024 a las 21:36:34
+-- Tiempo de generación: 18-11-2024 a las 00:22:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,8 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `catalogomates`
 --
-CREATE DATABASE IF NOT EXISTS `catalogomates` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `catalogomates`;
+
 -- --------------------------------------------------------
 
 --
@@ -65,13 +64,11 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`id_mate`, `nombre_mate`, `forma_mate`, `imagen`, `recubrimiento_mate`, `color_mate`, `id_categoria_fk`) VALUES
-(3, 'Mate provinciano', 'Torpedo', 'https://acdn.mitiendanube.com/stores/001/143/953/products/img_9376_jpg-a11ecf50788d52680716987627000158-1024-1024.webp', 'Cuero sintetico', 'azul', 3),
 (5, 'Mate escuirol', 'Imperial', 'https://acdn.mitiendanube.com/stores/001/143/953/products/img_9368-4370cd752e2375a44516987629639789-1024-1024.jpeg', 'Cuero natural', 'marron', 2),
 (12, 'Mate calavera', 'Torpedo', 'https://acdn.mitiendanube.com/stores/942/536/products/calavera11-1ca3f197da940d247116187157038750-1024-1024.webp', 'Cuero natural', 'Negro', 2),
-(14, 'Mate Clásico', 'Imperial', 'https://acdn.mitiendanube.com/stores/001/143/953/products/img_9368-4370cd752e2375a44516987629639789-1024-1024.jpeg', 'Cuero natural', 'Negro', 1),
+(14, 'Mate Clásico', 'Imperial', 'https://acdn.mitiendanube.com/stores/001/143/953/products/img_9368-4370cd752e2375a44516987629639789-1024-1024.jpeg', 'Cuero natural', 'Negro', 2),
 (15, 'Mate Elegante', 'Torpedo', 'https://acdn.mitiendanube.com/stores/001/143/953/products/img_9376_jpg-a11ecf50788d52680716987627000158-1024-1024.webp', 'Cuero sintético', 'Marrón', 2),
 (16, 'Mate Clásico Uruguayo', 'Camionero', 'https://estiloaustral.com/wp-content/uploads/2023/03/MATE0052-MATE-CAMIONERO-URUGUAYO-1.png', 'Cuero natural', 'Rojo', 3),
-(17, 'Mate Tradicional', 'Imperial', 'https://acdn.mitiendanube.com/stores/001/143/953/products/img_9368-4370cd752e2375a44516987629639789-1024-1024.jpeg', 'Cuero natural', 'Verde', 1),
 (18, 'Mate de Estilo', 'Torpedo', 'https://acdn.mitiendanube.com/stores/001/143/953/products/img_9376_jpg-a11ecf50788d52680716987627000158-1024-1024.webp', 'Cuero sintético', 'Negro', 2),
 (19, 'Mate del Sur', 'Camionero', 'https://estiloaustral.com/wp-content/uploads/2023/03/MATE0052-MATE-CAMIONERO-URUGUAYO-1.png', 'Cuero natural', 'Azul', 3),
 (20, 'Mate Sobrio', 'Imperial', 'https://acdn.mitiendanube.com/stores/001/143/953/products/img_9368-4370cd752e2375a44516987629639789-1024-1024.jpeg', 'Cuero sintético', 'Gris', 1),
@@ -79,7 +76,11 @@ INSERT INTO `producto` (`id_mate`, `nombre_mate`, `forma_mate`, `imagen`, `recub
 (22, 'Mate de Uruguay', 'Camionero', 'https://estiloaustral.com/wp-content/uploads/2023/03/MATE0052-MATE-CAMIONERO-URUGUAYO-1.png', 'Cuero natural', 'Amarillo', 3),
 (23, 'Mate Especial', 'Imperial', 'https://acdn.mitiendanube.com/stores/001/143/953/products/img_9368-4370cd752e2375a44516987629639789-1024-1024.jpeg', 'Cuero natural', 'Violeta', 1),
 (24, 'Mate de la Pampa', 'Torpedo', 'https://acdn.mitiendanube.com/stores/001/143/953/products/img_9376_jpg-a11ecf50788d52680716987627000158-1024-1024.webp', 'Cuero sintético', 'Naranja', 2),
-(25, 'Mate Nacional', 'Camionero', 'https://estiloaustral.com/wp-content/uploads/2023/03/MATE0052-MATE-CAMIONERO-URUGUAYO-1.png', 'Cuero sintético', 'Verde', 3);
+(27, 'Mate EDITADO desde API', 'Camionero', 'https://estiloaustral.com/wp-content/uploads/2023/03/MATE0052-MATE-CAMIONERO-URUGUAYO-1.png', 'Cuero natural', 'ROJO', 2),
+(28, 'Mate AGREGADO desde API', 'Camionero', 'https://estiloaustral.com/wp-content/uploads/2023/03/MATE0052-MATE-CAMIONERO-URUGUAYO-1.png', 'Cuero natural', 'Negro', 1),
+(29, 'Mate AGREGADO desde API', 'Camionero', 'https://estiloaustral.com/wp-content/uploads/2023/03/MATE0052-MATE-CAMIONERO-URUGUAYO-1.png', 'Cuero natural', 'Negro', 1),
+(30, 'Mate MODIFICADO desde API 3', 'Camionero', 'https://estiloaustral.com/wp-content/uploads/2023/03/MATE0052-MATE-CAMIONERO-URUGUAYO-1.png', 'Cuero natural', 'Azul', 3),
+(31, 'Mate EDITADO desde API test FINAL', 'Torpedo', 'https://acdn.mitiendanube.com/stores/001/143/953/products/img_9376_jpg-a11ecf50788d52680716987627000158-1024-1024.webp', 'Cuero natural', 'AZUL', 1);
 
 -- --------------------------------------------------------
 
@@ -138,7 +139,7 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id_mate` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_mate` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
