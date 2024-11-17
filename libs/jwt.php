@@ -13,7 +13,7 @@ function createJWT($payload)
     $payload = str_replace(['+', '/', '='], ['-', '_', ''], $payload);
 
     // Firma
-    $signature = hash_hmac('sha256', $header . "." . $payload, 'JWT_KEY', true);
+    $signature = hash_hmac('sha256', $header . "." . $payload, 'admin', true);
     $signature = base64_encode($signature);
     $signature = str_replace(['+', '/', '='], ['-', '_', ''], $signature);
 
@@ -32,7 +32,7 @@ function validateJWT($jwt)
     $payload = $jwt[1];
     $signature = $jwt[2];
 
-    $valid_signature = hash_hmac('sha256', $header . "." . $payload, 'mi1secreto', true);
+    $valid_signature = hash_hmac('sha256', $header . "." . $payload, 'admin', true);
     $valid_signature = base64_encode($valid_signature);
     $valid_signature = str_replace(['+', '/', '='], ['-', '_', ''], $valid_signature);
 

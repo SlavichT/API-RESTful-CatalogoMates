@@ -21,7 +21,9 @@ class productModel
         }
         if ($orderBy) {
             switch ($orderBy) {
+
                     //orderBy ASCENDENTE
+
                 case 'id_mate':
                     $sql .= ' ORDER BY id_mate';
                     break;
@@ -100,7 +102,6 @@ class productModel
         $query = $db->prepare("SELECT  p.*, c.material_fabricacion FROM producto p JOIN categoria c ON p.id_categoria_fk = c.id_categoria WHERE id_mate = ?");
         $query->execute([$id_mate]);
 
-        //Realizamos en este caso un 'fetch' ya que solo necesitamos UN solo producto.
         $product = $query->fetch(PDO::FETCH_OBJ);
 
         return $product;

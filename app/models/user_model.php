@@ -1,6 +1,6 @@
 <?php
 
-class userModel
+class UserModel
 {
     private function connectDB()
     {

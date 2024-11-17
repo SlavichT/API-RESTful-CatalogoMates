@@ -27,10 +27,6 @@ class productApiController
     //  api/producto
     public function getAll($req, $res)
     {
-        //if (!$res->user) {
-        //    return $this->view->response("No autorizado", 401);
-        //}
-
         $allowedColumns =
             [
                 'id_mate',
@@ -80,14 +76,6 @@ class productApiController
         return $this->view->response($products);
     }
 
-
-    //public function getAll($req, $res)
-    //{
-    //    $products = $this->model->getProducts();
-    //
-    //    $this->view->response($products);
-    //}
-
     // api/producto/:id
     public function get($req, $res)
     {
@@ -108,6 +96,10 @@ class productApiController
     // api/producto/:id (DELETE)
     public function deleteProduct($req, $res)
     {
+        if (!$res->user) {
+            return $this->view->response("No autorizado", 401);
+        }
+
         $id = $req->params->id;
 
         $product = $this->model->getProductById($id);
@@ -126,6 +118,9 @@ class productApiController
 
     public function addProduct($req, $res)
     {
+        if (!$res->user) {
+            return $this->view->response("No autorizado", 401);
+        }
         //Valido los datos 
         if (!isset($req->body->nombre_mate) || !isset($req->body->forma_mate) || !isset($req->body->recubrimiento_mate) || !isset($req->body->imagen) || !isset($req->body->color_mate) || !isset($req->body->id_categoria_fk)) {
             return $this->view->response("Faltan completar datos", 400);
@@ -152,6 +147,10 @@ class productApiController
     //api/producto/:id (PUT)
     public function updateProduct($req, $res)
     {
+        if (!$res->user) {
+            return $this->view->response("No autorizado", 401);
+        }
+
         $id = intval($req->params->id);
 
         $product = $this->model->getProductById($id);
