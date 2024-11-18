@@ -121,6 +121,8 @@ Para ordenar de manera descendente deberemos respetar los campos anteriores con 
 **`-id_categoria_fk`**
 (Las categorias disponibles son 1-> Calabaza, 2->Madera , 3->Vidrio)
 
+EJEMPLO: http://localhost/API-RESTful-CatalogoMates/api/producto?orderBy=id_categoria_fk
+
 - Filtro segun campo especifico, en este caso **`forma_mate`**.
 
 Para filtrar segun la **`forma_mate`** debemos armar la peticion GET de la siguiente manera, teniendo en cuenta que las formas de mate disponibles que tenemos son: **`Imperial`** **`Torpedo`** **`Camionero`**
