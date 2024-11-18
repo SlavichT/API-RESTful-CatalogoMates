@@ -45,7 +45,7 @@ $router->addRoute('producto/:id',   'GET',       'ProductApiController',        
 $router->addRoute('producto/:id',   'DELETE',    'ProductApiController',         'deleteProduct');  #deleteProduct    ->  nos elimina un producto especifico
 $router->addRoute('producto',       'POST',      'ProductApiController',         'addProduct');     #addProduct ->  nos agrega un producto especifico
 $router->addRoute('producto/:id',   'PUT',       'ProductApiController',         'updateProduct');  #updateProduct ->  updatea un producto ya existente
-$router->addRoute('usuario/token',  'GET',       'UserApiController',            'getToken');
+$router->addRoute('usuario/token',  'GET',       'UserApiController',            'getToken');       #getToken ->  genera un token para la autenticacion
 
 
 
