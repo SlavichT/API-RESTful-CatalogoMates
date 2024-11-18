@@ -89,7 +89,7 @@ En esta pagina se ve de manera mas clara y con ejemplos las peticiones **`HTTP`*
 
 **`orderBy`**: podemos ordenar nuestros productos segun el campo que deseemos tanto de manera **ASCENDENTE(de manera default)** como **DESCENDENTE** de la siguiente manera.
 
-http://localhost/API-RESTful-CatalogoMates/api/producto?orderBy=**Campo por el que queremos ordenar**
+http://localhost/API-RESTful-CatalogoMates/api/producto?orderBy= **Campo por el que queremos ordenar**
 
 Podemos ordernar segun los siguientes campos:
 
